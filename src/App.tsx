@@ -22,6 +22,7 @@ type HandleSetLocation = (location: Location) => void;
 function App() {
   const [loc, setLoc] = useState({ latitude: '', longitude: '' })
   const [weather, setWeather] = useState('')
+  const [error, setError] = useState('')
 
   const handleSetLocation: HandleSetLocation = (location: any) => {
     setLoc(location)
@@ -33,9 +34,11 @@ function App() {
         .get(`${BASE_URL}/current.json?key=${API_KEY}&q=${loc.latitude},${loc.longitude}`)
         .then((res) => {
           console.log(res);
+          setWeather(res.data)
         })
         .catch((err) => {
           console.log(err);
+          setError(err.message)
         })
       }
   }, [loc])
